@@ -1,49 +1,58 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
-//= require jquery3
-//= require popper
-//= require bootstrap
 import "jquery";
 import "@hotwired/turbo-rails";
 import "controllers";
 
-// ページごとの初期化関数
+let mapInitialized = false; // Google Map初期化済みフラグ
+
+// Google Maps 初期化関数
+function initGoogleMap() {
+  const mapElement = document.getElementById("map");
+  if (mapElement) {
+    // 地図がすでに初期化されている場合はリサイズを実行
+    if (mapInitialized) {
+      google.maps.event.trigger(mapElement, "resize");
+      return;
+    }
+    // 新たに地図を初期化
+    initMap();
+    mapInitialized = true;
+  }
+}
+
+// Turboページごとの初期化関数
 function initializePage() {
-    console.log("Page initialized");
+  console.log("Page initialized");
 
-    // ハンバーガーメニューの処理
-    const hamburgerMenu = $('#js-hamburger-menu');
-    if (hamburgerMenu.length) {
-        hamburgerMenu.off('click').on('click', function () {
-            console.log("Hamburger menu clicked");
-            $('.navigation').toggleClass('open');
-            $(this).toggleClass('hamburger-menu--open');
-            console.log($('.navigation').hasClass('open') ? "Menu is open" : "Menu is closed");
-        });
-    }
+  // ハンバーガーメニューの処理
+  const hamburgerMenu = $('#js-hamburger-menu');
+  if (hamburgerMenu.length) {
+    hamburgerMenu.off('click').on('click', function () {
+      $('.navigation').toggleClass('open');
+      $(this).toggleClass('hamburger-menu--open');
+    });
+  }
 
-    // Google Maps の初期化
-    const mapElement = document.getElementById("map");
-    if (mapElement && typeof initMap === "function") {
-        console.log("Initializing Google Maps");
-        initMap();
-    } else if (mapElement) {
-        console.warn("initMap function not found or Google Maps script not loaded.");
-    }
+  // Google Maps 初期化処理
+  initGoogleMap();
 
-    // プロフィールテキストエリアの自動リサイズ
-    const profileTextArea = document.querySelector('.auto-resize');
-    if (profileTextArea) {
-        const resizeTextArea = function () {
-            this.style.height = 'auto';  // 高さをリセット
-            this.style.height = `${this.scrollHeight}px`; // 必要な高さを設定
-        };
-
-        profileTextArea.addEventListener('input', resizeTextArea);
-        resizeTextArea.call(profileTextArea); // 初期化時に実行
-    }
+  // プロフィールテキストエリアの自動リサイズ
+  const profileTextArea = document.querySelector('.auto-resize');
+  if (profileTextArea) {
+    const resizeTextArea = function () {
+      this.style.height = 'auto';
+      this.style.height = `${this.scrollHeight}px`;
+    };
+    profileTextArea.addEventListener('input', resizeTextArea);
+    resizeTextArea.call(profileTextArea);
+  }
 }
 
 // Turboページ遷移に対応
-document.addEventListener("turbo:load", function () {
-    initializePage();
-});
+document.addEventListener("turbo:load", initializePage);
+
+// Google Maps APIが非同期でロードされる場合の対応
+window.initMap = function () {
+  console.log("Google Maps initialized");
+  initializePage(); // 初期化関数を再実行
+};
