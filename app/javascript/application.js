@@ -1,38 +1,49 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
+//= require jquery3
+//= require popper
+//= require bootstrap
 import "jquery";
 import "@hotwired/turbo-rails";
 import "controllers";
 
-// ページごとの初期化関数
-function initializePage() {
-  console.log("Page initialized");
+document.addEventListener("turbo:load", function() {
+    console.log("JavaScript file loaded");
 
-  // ハンバーガーメニューの処理
-  const hamburgerMenu = $('#js-hamburger-menu');
-  if (hamburgerMenu.length) {
-    hamburgerMenu.off('click').on('click', function () {
+    $('#js-hamburger-menu').off('click').on('click', function () {
+      console.log("Hamburger menu clicked");
       $('.navigation').toggleClass('open');
       $(this).toggleClass('hamburger-menu--open');
+
+      if($('.navigation').hasClass('open')) {
+        console.log("Menu is open");
+      } else {
+        console.log("Menu is closed");
+      }
     });
-  }
 
-  // Google Maps の初期化
-  const mapElement = document.getElementById("map");
-  if (mapElement && typeof initMap === "function") {
-    initMap();
-  }
+    if (typeof initMap === "function") {
+      console.log("Initializing Google Maps");
+      initMap();
+    } else {
+      console.warn("initMap function not found.");
+    }
+});
+  
+// document.addEventListener("turbo:load", function() {
+//   console.log("JavaScript file loaded");
 
-  // プロフィールテキストエリアの自動リサイズ
+  // const mapElement = document.getElementById("map");
+  // if (mapElement && typeof initMap === "function") {
+  //   console.log("Initializing Google Maps");
+  //   initMap();
+  // }
   const profileTextArea = document.querySelector('.auto-resize');
   if (profileTextArea) {
     const resizeTextArea = function () {
       this.style.height = 'auto';
       this.style.height = `${this.scrollHeight}px`;
     };
+
     profileTextArea.addEventListener('input', resizeTextArea);
     resizeTextArea.call(profileTextArea);
   }
-}
-
-// Turboページ遷移に対応
-document.addEventListener("turbo:load", initializePage);
