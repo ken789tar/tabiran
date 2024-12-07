@@ -6,7 +6,7 @@ import "jquery";
 import "@hotwired/turbo-rails";
 import "controllers";
 
-document.addEventListener("turbo:load", function() {
+document.addEventListener("turbo:load", function () {
     console.log("JavaScript file loaded");
 
     $('#js-hamburger-menu').off('click').on('click', function () {
@@ -14,8 +14,8 @@ document.addEventListener("turbo:load", function() {
       $('.navigation').toggleClass('open');
       $(this).toggleClass('hamburger-menu--open');
 
-      if($('.navigation').hasClass('open')) {
-        console.log("Menu is open");
+      if ($('.navigation').hasClass('open')) {
+        console.log("Menu is open");  
       } else {
         console.log("Menu is closed");
       }
@@ -28,7 +28,7 @@ document.addEventListener("turbo:load", function() {
       console.warn("initMap function not found.");
     }
 });
-  
+
 // document.addEventListener("turbo:load", function() {
 //   console.log("JavaScript file loaded");
 
@@ -39,8 +39,8 @@ document.addEventListener("turbo:load", function() {
   // }
   const profileTextArea = document.querySelector('.auto-resize');
   if (profileTextArea) {
-    const resizeTextArea = function () {
-      this.style.height = 'auto';
+    const resizeTextArea = function() {
+      this.style.height = 'auto';  // 高さをリセット
       this.style.height = `${this.scrollHeight}px`;
     };
 

@@ -27,36 +27,36 @@
         <input type="button" value="検索" onclick="codeAddress()" class="btn btn-dark mb-3">
         <div id="display"></div>
       </div>
-      <div id="newmap" class="map"></div>
-
+      <div id="newmap" class="map">
+      
         <!-- 隠しフィールドに緯度・経度を保持 -->
         <%= f.hidden_field :latitude, id: "latitude" %>
         <%= f.hidden_field :longitude, id: "longitude" %>
-      </div>      
+      </div>
           
           <script>
             let map;
             let geocoder;
             let marker; 
-
+          
             function codeAddress() {
               const inputAddress = document.getElementById("address").value;
           
               geocoder.geocode({ address: inputAddress }, (results, status) => {
                 if (status === "OK") {
-
+                  
                   map.setCenter(results[0].geometry.location);
           
-
+                  
                   if (marker) {
-                    marker.setMap(null);
+                    marker.setMap(null); 
                   }
                   marker = new google.maps.Marker({
                     map: map,
                     position: results[0].geometry.location,
                   });
           
-
+                  
                   const location = results[0].geometry.location;
                   document.getElementById("latitude").value = location.lat();
                   document.getElementById("longitude").value = location.lng();
@@ -68,42 +68,42 @@
               });
               google.maps.event.trigger(map, "resize");
             }
-      
-            function initMap() {
             
-              const initialPosition = { lat: 35.6803997, lng: 139.7690174 };
+            function initMap() {
+              
+              const initialPosition = { lat: 35.6803997, lng: 139.7690174 }; // 初期位置
               geocoder = new google.maps.Geocoder();
           
-
+              
               map = new google.maps.Map(document.getElementById("newmap"), {
                 center: initialPosition,
                 zoom: 10,
               });
           
-
+            
               marker = new google.maps.Marker({
                 position: initialPosition,
                 map: map,
               });
-
+          
               
               document.getElementById("latitude").value = initialPosition.lat;
               document.getElementById("longitude").value = initialPosition.lng;
             }
 
             const observer = new MutationObserver(() => {
-              if (document.getElementById('map')) {
-                  initMap();
-                  observer.disconnect();
-              }
+                if (document.getElementById('map')) {
+                    initMap();
+                    observer.disconnect(); 
+                }
             });
-              
-            observer.observe(document.body, { childlist: true, subtree: true });
 
+            observer.observe(document.body, { childList: true, subtree: true });
+          
             
           </script>
-          
 
+          
       <div class="form-group mb-3">
         <label class="form-label">【画像】</label><br>
         <%= f.file_field :image %><br>
