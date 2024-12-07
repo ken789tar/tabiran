@@ -47,3 +47,5 @@ document.addEventListener("turbo:load", function () {
     profileTextArea.addEventListener('input', resizeTextArea);
     resizeTextArea.call(profileTextArea);
   }
+
+});
