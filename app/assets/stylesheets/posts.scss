@@ -413,10 +413,10 @@ select {
     max-width: none;
  }
 
- .confirm-box img {
+  .confirm-box img {
   display: block;
   margin: 10px auto;
   max-width: calc(100% - 30px);
   box-sizing: border-box;
-}
-}
+  }
+} 
