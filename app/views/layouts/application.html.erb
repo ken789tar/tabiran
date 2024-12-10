@@ -9,14 +9,14 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= favicon_link_tag 'favicon.ico' %>
-
     
+   
   </head>
 
   <body>
     <% if user_signed_in? %>
       <header class="header">
-        <div><%= link_to root_path, class: "nav-link" do %>tabiran<% end %></div>
+        <div><%= link_to root_path, class: "nav-link" do %>tabiran<% end %></div>        
         <button class="hamburger-menu" id="js-hamburger-menu">
           <span class="hamburger-bar"></span>
           <span class="hamburger-bar"></span>
@@ -36,14 +36,7 @@
     <%= yield %>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=<%= ENV["GOOGLE_MAPS_API_KEY"] %>&callback=initMap`;
-        script.async = true;
-        document.body.appendChild(script);
-      });
-    </script>
-    
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV["GOOGLE_MAPS_API_KEY"] %>&callback=initMap" async defer></script>
+
   </body>
 </html>
