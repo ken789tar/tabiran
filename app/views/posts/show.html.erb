@@ -32,6 +32,8 @@
             <% end %>
             &nbsp;閲覧数: <%= @post.view_counts.count %><br>
           </p>
+          <p>START地点: <%= @post.start_location.presence || '未設定' %></p>
+          <p>GOAL地点: <%= @post.end_location.presence || '未設定' %></p>
         </div>
         <div class="box2">
           <span class="box-title">感想</span>

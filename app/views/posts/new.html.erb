@@ -18,6 +18,14 @@
         <%= f.text_field :location, class: "form-control" %>
       </div>
       <div class="form-group mb-3">
+        <label class="form-label">【START地点】</label>
+        <%= f.text_field :start_location, class: "form-control" %>
+      </div>
+      <div class="form-group mb-3">
+        <label class="form-label">【GOAL地点】</label>
+        <%= f.text_field :end_location, class: "form-control" %>
+      </div>
+      <div class="form-group mb-3">
         <label class="form-label">【感想】</label>
         <%=f.text_area :text, rows: 10, class: "form-control" %>
       </div>
@@ -33,66 +41,39 @@
 
       <script>
 
-      let geocoder; // グローバル変数として定義
-      let newmap;   // マップもグローバル変数に
-
       function initMap() {
-          const initialPosition = { lat: 35.6803997, lng: 139.7690174 };
-          geocoder = new google.maps.Geocoder();
+        const initialPosition = { lat: 35.6803997, lng: 139.7690174 };
+        const geocoder = new google.maps.Geocoder();
 
-          // 地図を初期化
-          newmap = new google.maps.Map(document.getElementById('newmap'), {
-              center: initialPosition,
-              zoom: 12,
-          });
+        newmap = new google.maps.Map(document.getElementById('newmap'), {
+          center: initialPosition,
+          zoom: 12,
+        });
 
-          // 初期位置にマーカーを配置
-          const marker = new google.maps.Marker({
-              position: initialPosition,
-              map: newmap,
-          });
+        const marker = new google.maps.Marker({
+          position: initialPosition,
+          map: newmap,
+        });
 
-          // 初期位置をhiddenフィールドに設定
-          document.getElementById("latitude").value = initialPosition.lat;
-          document.getElementById("longitude").value = initialPosition.lng;
+        document.getElementById("latitude").value = initialPosition.lat;
+        document.getElementById("longitude").value = initialPosition.lng;
       }
 
-      // 住所検索
       function codeAddress() {
-          const inputAddress = document.getElementById('address').value;
+        const inputAddress = document.getElementById('address').value;
 
-          if (!geocoder || !newmap) {
-              alert("地図が初期化されていません。ページをリロードしてください。");
-              return;
+        geocoder.geocode({ address: inputAddress }, function (results, status) {
+          if (status === 'OK') {
+            newmap.setCenter(results[0].geometry.location);
+            const marker = new google.maps.Marker({
+              map: newmap,
+              position: results[0].geometry.location,
+            });
+          } else {
+            alert('該当する結果がありませんでした：' + status);
           }
-
-          geocoder.geocode({ address: inputAddress }, function (results, status) {
-              if (status === 'OK') {
-                  // 地図の中心を検索結果に移動
-                  newmap.setCenter(results[0].geometry.location);
-
-                  // マーカーを配置
-                  const marker = new google.maps.Marker({
-                      map: newmap,
-                      position: results[0].geometry.location,
-                  });
-
-                  // 検索結果の緯度経度をhiddenフィールドに設定
-                  document.getElementById("latitude").value = results[0].geometry.location.lat();
-                  document.getElementById("longitude").value = results[0].geometry.location.lng();
-              } else {
-                  alert('該当する結果がありませんでした：' + status);
-              }
-          });
+        });
       }
-
-      // Turbo対応: ページ遷移時に地図を初期化
-      document.addEventListener("turbo:load", function () {
-          if (typeof google !== "undefined" && google.maps) {
-              initMap();
-          }
-      });
-
 
 
       </script>

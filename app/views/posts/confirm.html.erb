@@ -11,6 +11,8 @@
           <p class="caption"><%= post.user.name %></p>
           <%= attachment_image_tag post, :image, format: 'jpeg', size: '300x200' %>
           <p class="caption"><%= post.location %></p>
+          <p class="caption">START地点:<%= post.start_location.presence || '未設定' %></p>
+          <p class="caption">GOAL地点:<%= post.end_location.presence || '未設定' %></p>
           <% end %>
         </div>
       </div>
