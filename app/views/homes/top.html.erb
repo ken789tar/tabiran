@@ -2,13 +2,15 @@
   <div class="text-center">
     <h1 class="title mb-2">tabiran</h1>
     <p class="sub-title">～旅先でのランニングを共有する～</p>
-    <div class="top-button">
-      <%= link_to new_user_registration_path do %>
-        <h2 class="btn btn-dark">新規登録</h2>
-      <% end %>
-      <%= link_to new_user_session_path do %>
-        <h2 class="btn btn-dark">ログイン</h2>
-      <% end %>
-    </div>
+    <% unless user_signed_in? %>
+      <div class="top-button">
+        <%= link_to new_user_registration_path do %>
+          <h2 class="btn btn-dark">新規登録</h2>
+        <% end %>
+        <%= link_to new_user_session_path do %>
+          <h2 class="btn btn-dark">ログイン</h2>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>
