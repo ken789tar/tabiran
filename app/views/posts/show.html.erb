@@ -21,9 +21,9 @@
         </div>
         <div class="box1">
           <p class="caption"><%= @post.location %>
-            <td id="favorite_btn_<%= @post.id %>">
-              <% render "favorites/btn", post: @post %>
-            </td> 
+            <div id="favorite_btn_<%= @post.id %>">
+              <%=render "favorites/btn", post: @post %>
+            </div> 
             &nbsp;閲覧数: <%= @post.view_counts.count %><br>
           </p>
           <p>START地点: <%= @post.start_location.presence || '未設定' %></p>
