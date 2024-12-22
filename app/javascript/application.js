@@ -6,6 +6,7 @@ import "jquery";
 import "@hotwired/turbo-rails";
 import "controllers";
 
+
 document.addEventListener("turbo:load", function () {
   console.log("JavaScript file loaded");
 

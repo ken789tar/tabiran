@@ -29,61 +29,6 @@
       <label class="form-label">【感想】</label>
       <%=f.text_area :text, rows: 10, class: "form-control" %>
     </div>
-    
-
-        <script>
-        
-          let editMap;
-          let editGeocoder;
-          let editMarker;
-
-          function initMap() {
-            const initialLat = parseFloat("<%= @post.latitude || 35.6803997 %>");
-            const initialLng = parseFloat("<%= @post.longitude || 139.7690174 %>");
-            const initialPosition = { lat: initialLat, lng: initialLng };
-
-            editGeocoder = new google.maps.Geocoder();
-
-            editMap = new google.maps.Map(document.getElementById('editmap'), {
-              center: initialPosition,
-              zoom: 12,
-            });
-
-            editMarker = new google.maps.Marker({
-              position: initialPosition,
-              map: editMap,
-            });
-
-            document.getElementById("latitude").value = initialPosition.lat;
-            document.getElementById("longitude").value = initialPosition.lng;
-          }
-
-          function codeAddress() {
-            const inputAddress = document.getElementById('address').value;
-
-            editGeocoder.geocode({ 'address': inputAddress }, function(results, status) {
-              if (status === 'OK') {
-                editMap.setCenter(results[0].geometry.location);
-                if (editMarker) {
-                  editMarker.setMap(null);
-                }
-                editMarker = new google.maps.Marker({
-                  map: editMap,
-                  position: results[0].geometry.location,
-                });
-
-                document.getElementById("latitude").value = location.lat();
-                document.getElementById("longitude").value = location.lng();
-              } else {
-                alert('該当する結果がありませんでした：' + status);
-              }
-            });
-            google.maps.event.trigger(editmap, "resize");
-          }
-          
-
-        </script>
-
       <div class="form-group mb-4">
         <label class="form-label">【画像】</label><br>
         <%= f.file_field :image %>
