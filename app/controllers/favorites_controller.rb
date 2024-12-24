@@ -2,28 +2,12 @@ class FavoritesController < ApplicationController
     def create
         post = Post.find(params[:post_id])
         favorite = current_user.favorites.new(post_id: post.id)
-        respond_to do |format|
-            if favorite.save
-                format.turbo_stream do
-                    render turbo_stream: turbo_stream.update("post_#{post.id}_favorite", partial: 'posts/favorite', locals: { post: post })
-                end
-            else
-                format.html { redirect_to post, alert: 'Failed to favorite.' }
-            end
-        end
+        favorite.save
     end
 
     def destroy
         post = Post.find(params[:post_id])
         favorite = current_user.favorites.find_by(post_id: post.id)
-        respond_to do |format|
-            if favorite.destroy
-                format.turbo_stream do
-                    render turbo_stream: turbo_stream.update("post_#{post.id}_favorite", partial: 'posts/favorite', locals: { post: post })
-                end
-            else
-                format.html { redirect_to post, alert: 'Failed to unfavorite.' }
-            end
-        end
+        favorite.destroy
     end 
 end
