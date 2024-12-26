@@ -21,7 +21,7 @@
         </div>
         <div class="box1">
           <p class="caption"><%= @post.location %>
-            <div id="favorites_btn_<%= @post.id %>">
+            <div id="favorite_btn_<%= @post.id %>">
               <%= render "favorites/btn", post: @post %>
             </div> 
             &nbsp;閲覧数: <%= @post.view_counts.count %><br>
