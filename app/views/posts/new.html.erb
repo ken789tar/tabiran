@@ -28,49 +28,7 @@
       <div class="form-group mb-3">
         <label class="form-label">【感想】</label>
         <%=f.text_area :text, rows: 10, class: "form-control" %>
-      </div>
-      
-
-      <script>
-
-      function initMap() {
-        const initialPosition = { lat: 35.6803997, lng: 139.7690174 };
-        const geocoder = new google.maps.Geocoder();
-
-        newmap = new google.maps.Map(document.getElementById('newmap'), {
-          center: initialPosition,
-          zoom: 12,
-        });
-
-        const marker = new google.maps.Marker({
-          position: initialPosition,
-          map: newmap,
-        });
-
-        document.getElementById("latitude").value = initialPosition.lat;
-        document.getElementById("longitude").value = initialPosition.lng;
-      }
-
-      function codeAddress() {
-        const inputAddress = document.getElementById('address').value;
-
-        geocoder.geocode({ address: inputAddress }, function (results, status) {
-          if (status === 'OK') {
-            newmap.setCenter(results[0].geometry.location);
-            const marker = new google.maps.Marker({
-              map: newmap,
-              position: results[0].geometry.location,
-            });
-          } else {
-            alert('該当する結果がありませんでした：' + status);
-          }
-        });
-      }
-
-
-      </script>
-      
-          
+      </div>           
       <div class="form-group mb-3">
         <label class="form-label">【画像】</label><br>
         <%= f.file_field :image %><br>
